@@ -8,7 +8,7 @@ export interface IEvent {
   tickets?: number;
 }
 
-enum eventType {
+export enum eventType {
   PUBLIC = 'PUB',
   PRIVATE = 'PRIV',
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { eventType } from '../../interfaces/event.interface';
 
 @Component({
   selector: 'event-register',
@@ -9,7 +10,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class EventRegisterPage implements OnInit {
   eventFrm: FormGroup;
   constructor(private fb: FormBuilder) {
-      this.initiFrom();
   }
 
   ngOnInit() {}
@@ -17,12 +17,31 @@ export class EventRegisterPage implements OnInit {
   initiFrom() {
     this.eventFrm = this.fb.group({
       id: [],
-      title: [],
-      description: [],
-      eventType: [],
-      eventDate: [],
-      allowTicket: [],
+      title: [,Validators.required],
+      description: [,Validators.required],
+      eventType: [,Validators.required],
+      eventDate: [,Validators.required],
+      allowTicket: [,Validators.required],
       tickets: [],
     });
+  }
+
+  createEvent() {
+      if(this.eventFrm.invalid) {
+          return false;
+      }
+
+      if(!Object.values(eventType).includes(this.eventFrm.get('eventType').value) ) {
+        return false;
+      }
+
+      const actualDate = new Date();
+      const eventDate = new Date(this.eventFrm.get('eventDate').value);
+      console.log(actualDate.getTime())
+      console.log(eventDate.getTime())
+      if(actualDate.getTime() > eventDate.getTime()) {
+          return false;
+      }
+
   }
 }
